@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Vendor: Pivotal Software, Inc.
+Implementation-Title: hibernate1
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: tutorialspoint
+Build-Jdk: 1.7.0_76
+Built-By: AnDsouza
+Created-By: Maven Integration for Eclipse
+

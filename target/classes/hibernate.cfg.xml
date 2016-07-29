@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM 
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+<session-factory>
+   <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+        <property name="hibernate.connection.url">jdbc:oracle:thin:@127.0.0.1:1521:xe</property>
+        <property name="hibernate.connection.username">ansel</property>
+        <property name="hibernate.connection.password">password</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
+        <property name="hibernate.default_schema">ansel</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="show_sql">true</property>
+  		
+  		<!-- <mapping class="app.entityClasses.User"></mapping>  -->
+  		<mapping class="app.entityClasses.Segment"></mapping> 
+  		<mapping class="app.entityClasses.Manufacturer"></mapping>
+  		<mapping class="app.entityClasses.Model"></mapping>
+  		<mapping class="app.entityClasses.FeatureTypes"></mapping>
+  		<mapping class="app.entityClasses.SubFeatures"></mapping>
+  		<mapping class="app.entityClasses.FeatureManufacturers"></mapping>
+  		<mapping class="app.entityClasses.ModelManufacturerMapper"></mapping>
+  		
+  		<!-- <mapping class="app.hibernate1.Stock" />
+   		<mapping class="app.hibernate1.Category" />
+   		<mapping class="app.hibernate1.StockDailyRecord" /> -->
+</session-factory>
+</hibernate-configuration> 
