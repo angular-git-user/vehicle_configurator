@@ -21,7 +21,7 @@
   		<mapping class="app.entityClasses.SubFeatures"></mapping>
   		<mapping class="app.entityClasses.FeatureManufacturers"></mapping>
   		<mapping class="app.entityClasses.ModelManufacturerMapper"></mapping>
-  		
+  		 
   		<!-- <mapping class="app.hibernate1.Stock" />
    		<mapping class="app.hibernate1.Category" />
    		<mapping class="app.hibernate1.StockDailyRecord" /> -->

@@ -34,10 +34,7 @@ public class App
     	query.addEntity(FeatureTypes.class);
 		features = (List<FeatureTypes>) query.list();*/
 		
-		Model m = (Model)session.get(Model.class, 1);
-		
-		Manufacturer mu = m.getManufacturer();
-		
+		//Model m = (Model)session.get(Model.class, 1);
 		session.getTransaction().commit();
 		sf.close();
 	}

@@ -6,15 +6,13 @@ public class ManufacturerDto {
 	private String manufacturerName;
 	private SegmentDto segment;
 	
-	
 	public ManufacturerDto(int manufacturerId, String manufacturerName, SegmentDto segment) {
 		super();
 		this.manufacturerId = manufacturerId;
 		this.manufacturerName = manufacturerName;
 		this.segment = segment;
 	}
-	
-	
+		
 	public ManufacturerDto() {
 		super();
 	}
@@ -37,6 +35,5 @@ public class ManufacturerDto {
 	public void setSegment(SegmentDto segment) {
 		this.segment = segment;
 	}
-	
 	
 }

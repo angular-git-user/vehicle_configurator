@@ -36,8 +36,13 @@ public class Segment {
 		super();
 	}
 	
+	public Segment(int id) {
+		super();
+		this.id = id;
+	}
+
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="segment")
-	@Fetch(FetchMode.JOIN)
+	//@Fetch(FetchMode.JOIN)
 	public Set<Manufacturer> getManufacturers() {
 		return manufacturers;
 	}
@@ -64,6 +69,11 @@ public class Segment {
 
 	public void setSegname(String segname) {
 		this.segname = segname;
+	}
+
+	@Override
+	public String toString() {
+		return "Segment [id=" + id + ", segname=" + segname + "]";
 	}
 	
 }

@@ -22,6 +22,7 @@ import app.entityClasses.Model;
 import app.entityClasses.Segment;
 import app.entityClasses.User;
 import app.service.PersistenceService;
+import app.service.VehicleConfiguratorService;
 
 
 @RestController
@@ -31,6 +32,10 @@ public class VehicleConfiguratorController {
 	@Autowired
 	PersistenceService hibernatePersistence;
 	
+	@Autowired
+	VehicleConfiguratorService service;
+	
+	//TODO
 	@RequestMapping(method = RequestMethod.POST,value = "/register")
 	public ResponseEntity<User> createNewUser(@RequestBody User user){
 		if(user != null){
@@ -42,6 +47,7 @@ public class VehicleConfiguratorController {
 		return new ResponseEntity<User>(HttpStatus.CONFLICT);
 	}
 	
+	//TODO
 	@RequestMapping(method = RequestMethod.POST, value="/login")
 	public ResponseEntity<User> login(@RequestBody User user){
 		if(user != null && hibernatePersistence.login(user.getUserId(), user.getPassword())){
@@ -51,26 +57,24 @@ public class VehicleConfiguratorController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value="/segments")
-	public ResponseEntity<List<Segment>> getSegments(){
-		List<Segment> segmentList = hibernatePersistence.getAllSegment();
-		if(segmentList.size() > 0){
-			return new ResponseEntity<List<Segment>>(segmentList, HttpStatus.OK);
+	public ResponseEntity<List<SegmentDto>> getSegments(){
+		List<SegmentDto> segments = service.getSegments();
+		if(segments!=null && !segments.isEmpty()){
+			return new ResponseEntity<List<SegmentDto>>(segments, HttpStatus.OK);
 		}
-		return new ResponseEntity<List<Segment>>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<SegmentDto>>(HttpStatus.NO_CONTENT);
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value="/{segmentId}/manufacturers")
-	public ResponseEntity<List<Manufacturer>> getManufactureres(@RequestParam int segmentId) {
-		List<Manufacturer> list = null;
-		if(segmentId > 0){
-			list = hibernatePersistence.getAllManufacturers(segmentId);
+	public ResponseEntity<List<ManufacturerDto>> getManufactureres(@RequestParam int segmentId) {
+		List<ManufacturerDto> manufList = service.getManufacturers(segmentId);
+		if(manufList!=null && !manufList.isEmpty()){
+			return new ResponseEntity<List<ManufacturerDto>>(manufList, HttpStatus.OK);
 		}
-		if(list != null && list.size() > 0){
-			return new ResponseEntity<List<Manufacturer>>(list, HttpStatus.OK);
-		}
-		return new ResponseEntity<List<Manufacturer>>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<ManufacturerDto>>(HttpStatus.NO_CONTENT);
 	}
 	
+	//TODO
 	@RequestMapping(method = RequestMethod.GET, value="/{manufacturerId}/models")
 	public ResponseEntity<List<Model>> getModels(@RequestParam int manufacturerId) {
 		List<Model> list = null;
@@ -82,24 +86,4 @@ public class VehicleConfiguratorController {
 		}
 		return new ResponseEntity<List<Model>>(HttpStatus.NO_CONTENT);
 	}
-	
-
-	@RequestMapping(method = RequestMethod.GET, value="/test/models")
-	public ResponseEntity<ModelDto> modelTest(){
-		SessionFactory sf = HibernateConnectionUtil.getConnectionFactory();
-
-		Session session = sf.openSession();
-		session.beginTransaction();
-		
-		Model m = (Model)session.get(Model.class, 1);
-		Manufacturer manu = m.getManufacturer();
-		Segment seg = manu.getSegment();
-		SegmentDto seg1 = new SegmentDto(seg.getId(), seg.getSegname());
-		ManufacturerDto manu1 = new ManufacturerDto(manu.getId(), manu.getManufacturerName(), seg1);
-		ModelDto m1 = new ModelDto(m.getId(), m.getModelName(), manu1);
-		
-		
-		return new ResponseEntity<ModelDto>(m1, HttpStatus.OK);
-	}
-	
 }

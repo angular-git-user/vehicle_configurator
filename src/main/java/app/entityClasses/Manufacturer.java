@@ -49,7 +49,7 @@ public class Manufacturer {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "manufacturer")
-	 @Fetch(FetchMode.JOIN)
+	// @Fetch(FetchMode.JOIN)
 	public Set<Model> getModels() {
 		return models;
 	}

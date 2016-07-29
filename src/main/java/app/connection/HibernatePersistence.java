@@ -9,6 +9,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 
 import app.entityClasses.EFeatures;
@@ -91,10 +92,7 @@ public class HibernatePersistence implements PersistenceService {
 		Session session = factory.openSession();
 		List<Segment> list = null;
 		try{
-			String hql = "select * from segment";
-			SQLQuery query = session.createSQLQuery(hql);
-			query.addEntity(Segment.class);
-			list = query.list();
+			list = session.createCriteria(Segment.class).list();
 		}catch(HibernateException e){
 			e.printStackTrace();
 		}finally {
@@ -105,15 +103,12 @@ public class HibernatePersistence implements PersistenceService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Manufacturer> getAllManufacturers(int id) {
+	public List<Manufacturer> getAllManufacturers(int segmentId) {
 		Session session = factory.openSession();
 		List<Manufacturer> list = null;
 		
 		try{
-			String hql = "select * from manuf where seg = "+id;
-			SQLQuery query = session.createSQLQuery(hql);
-			query.addEntity(Manufacturer.class);
-			list = query.list();
+			list = session.createCriteria(Manufacturer.class).add(Restrictions.eq("segment", new Segment(segmentId))).list();
 		}catch(HibernateException e){
 			e.printStackTrace();
 		}finally{
