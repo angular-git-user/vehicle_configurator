@@ -1,9 +1,10 @@
-package app.restService;
+package app.controller;
 
 import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.connection.HibernateConnectionUtil;
+import app.dto.*;
 import app.entityClasses.Manufacturer;
 import app.entityClasses.Model;
 import app.entityClasses.Segment;
@@ -79,6 +81,25 @@ public class VehicleConfiguratorController {
 			return new ResponseEntity<List<Model>>(list, HttpStatus.OK);
 		}
 		return new ResponseEntity<List<Model>>(HttpStatus.NO_CONTENT);
+	}
+	
+
+	@RequestMapping(method = RequestMethod.GET, value="/test/models")
+	public ResponseEntity<ModelDto> modelTest(){
+		SessionFactory sf = HibernateConnectionUtil.getConnectionFactory();
+
+		Session session = sf.openSession();
+		session.beginTransaction();
+		
+		Model m = (Model)session.get(Model.class, 1);
+		Manufacturer manu = m.getManufacturer();
+		Segment seg = manu.getSegment();
+		SegmentDto seg1 = new SegmentDto(seg.getId(), seg.getSegname());
+		ManufacturerDto manu1 = new ManufacturerDto(manu.getId(), manu.getManufacturerName(), seg1);
+		ModelDto m1 = new ModelDto(m.getId(), m.getModelName(), manu1);
+		
+		
+		return new ResponseEntity<ModelDto>(m1, HttpStatus.OK);
 	}
 	
 }
