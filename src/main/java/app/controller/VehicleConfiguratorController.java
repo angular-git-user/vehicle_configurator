@@ -74,16 +74,12 @@ public class VehicleConfiguratorController {
 		return new ResponseEntity<List<ManufacturerDto>>(HttpStatus.NO_CONTENT);
 	}
 	
-	//TODO
 	@RequestMapping(method = RequestMethod.GET, value="/{manufacturerId}/models")
-	public ResponseEntity<List<Model>> getModels(@RequestParam int manufacturerId) {
-		List<Model> list = null;
-		if(manufacturerId > 0){
-			list = hibernatePersistence.getAllModels(manufacturerId);
-		}
+	public ResponseEntity<List<ModelDto>> getModels(@RequestParam int manufacturerId) {
+		List<ModelDto> list = service.getModels(manufacturerId);
 		if(list != null && list.size() > 0){
-			return new ResponseEntity<List<Model>>(list, HttpStatus.OK);
+			return new ResponseEntity<List<ModelDto>>(list, HttpStatus.OK);
 		}
-		return new ResponseEntity<List<Model>>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<ModelDto>>(HttpStatus.NO_CONTENT);
 	}
 }

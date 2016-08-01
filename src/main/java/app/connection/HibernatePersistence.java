@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -108,7 +109,7 @@ public class HibernatePersistence implements PersistenceService {
 		List<Manufacturer> list = null;
 		
 		try{
-			list = session.createCriteria(Manufacturer.class).add(Restrictions.eq("segment", new Segment(segmentId))).list();
+			list = session.createCriteria(Manufacturer.class).add(Restrictions.eq("segment.id", new Integer(segmentId))).list();
 		}catch(HibernateException e){
 			e.printStackTrace();
 		}finally{
@@ -124,10 +125,9 @@ public class HibernatePersistence implements PersistenceService {
 		List<Model> list = null;
 		
 		try{
-			String hql = "select * from model where manu = "+manufacturerId;
-			SQLQuery query = session.createSQLQuery(hql);
-			query.addEntity(Model.class);
-			list = query.list();
+			list = session.createCriteria(Model.class).
+					add(Restrictions.eq("manufacturer.id", manufacturerId)).
+					setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		}catch(HibernateException e){
 			e.printStackTrace();
 		}finally{

@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import app.dto.ManufacturerDto;
+import app.dto.ModelDto;
 import app.dto.SegmentDto;
 import app.entityClasses.Manufacturer;
+import app.entityClasses.Model;
 import app.entityClasses.Segment;
 import app.translator.ResponseTranslator;
 
@@ -47,5 +49,19 @@ public class VehicleConfiguratorService {
 			}
 		}
 		return manufsDto;
+	}
+	
+	public List<ModelDto> getModels(int manufacturerId){
+		List<ModelDto> modelsDto = null;
+		List<Model> models = hibernatePersistence.getAllModels(manufacturerId);
+		
+		if(models !=null && !models.isEmpty()){
+			modelsDto = new ArrayList<ModelDto>();
+			
+			for(Model model : models){
+				modelsDto.add(responseTranslator.getModel(model));
+			}
+		}
+		return modelsDto;
 	}
 }

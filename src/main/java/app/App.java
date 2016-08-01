@@ -1,7 +1,5 @@
 package app;
 
-import java.util.*;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.boot.SpringApplication;
@@ -9,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import app.connection.HibernateConnectionUtil;
-import app.entityClasses.*;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
