@@ -2,10 +2,6 @@ package app.controller;
 
 import java.util.List;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import app.connection.HibernateConnectionUtil;
 import app.dto.*;
-import app.entityClasses.Manufacturer;
-import app.entityClasses.Model;
-import app.entityClasses.Segment;
 import app.entityClasses.User;
 import app.service.PersistenceService;
 import app.service.VehicleConfiguratorService;
@@ -81,5 +73,10 @@ public class VehicleConfiguratorController {
 			return new ResponseEntity<List<ModelDto>>(list, HttpStatus.OK);
 		}
 		return new ResponseEntity<List<ModelDto>>(HttpStatus.NO_CONTENT);
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value="/features/{modelId}")
+	public void getFeatures(@RequestParam int modelId){
+		List<FeatureTypesDto> mappedFeatures = service.getFeatures(modelId);
 	}
 }

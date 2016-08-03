@@ -14,6 +14,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "stock_daily_record", catalog = "mkyongdb", 
 uniqueConstraints = @UniqueConstraint(columnNames = "DATE"))

@@ -1,12 +1,17 @@
 package app.translator;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
+import app.dto.FeatureManufacturerDto;
 import app.dto.ManufacturerDto;
 import app.dto.ModelDto;
 import app.dto.SegmentDto;
+import app.dto.SubFeatureDto;
 import app.entityClasses.Manufacturer;
 import app.entityClasses.Model;
+import app.entityClasses.ModelManufacturerMapper;
 import app.entityClasses.Segment;
 
 @Component
@@ -36,5 +41,15 @@ public class ResponseTranslator {
 		return modelDto;
 	}
 	 
+	public void translateMapper(List<ModelManufacturerMapper> mappers){
+		for(ModelManufacturerMapper mapper : mappers){
+			FeatureManufacturerDto manu = new FeatureManufacturerDto(mapper.getManufacturerMapper().getId(), 
+					mapper.getManufacturerMapper().getManufacturerName(), 
+					mapper.getManufacturerMapper().getCost());
+			SubFeatureDto sub = new SubFeatureDto(mapper.getManufacturerMapper().getSubfeature().getId(), 
+					mapper.getManufacturerMapper().getSubfeature().getSubFeatureName());
+			
+		}
+	}
 	
 }

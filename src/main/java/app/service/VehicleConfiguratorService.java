@@ -6,11 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import app.dto.FeatureTypesDto;
 import app.dto.ManufacturerDto;
 import app.dto.ModelDto;
 import app.dto.SegmentDto;
 import app.entityClasses.Manufacturer;
 import app.entityClasses.Model;
+import app.entityClasses.ModelManufacturerMapper;
 import app.entityClasses.Segment;
 import app.translator.ResponseTranslator;
 
@@ -63,5 +65,11 @@ public class VehicleConfiguratorService {
 			}
 		}
 		return modelsDto;
+	}
+
+	public List<FeatureTypesDto> getFeatures(int modelId) {
+		List<ModelManufacturerMapper> mapper = hibernatePersistence.getAllFeatures(modelId);
+		return null;
+		
 	}
 }

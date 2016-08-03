@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.*;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -37,9 +36,9 @@ public class Manufacturer {
 	private Set<Model> models = new HashSet<Model>();
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "SEGMENT_ID", nullable = false)
-	 @Fetch(FetchMode.JOIN)
+	// @Fetch(FetchMode.JOIN)
 	public Segment getSegment() {
 		return segment;
 	}

@@ -55,7 +55,7 @@ public class SubFeatures {
 		this.manufactureresOfFeature = manufactureresOfFeature;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@Fetch(FetchMode.JOIN)
 	@JoinColumn(name = "feature_id", nullable = false)
 	public FeatureTypes getFeature() {
@@ -65,4 +65,39 @@ public class SubFeatures {
 	public void setFeature(FeatureTypes feature) {
 		this.feature = feature;
 	}
+
+	/*@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + ((subFeatureName == null) ? 0 : subFeatureName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SubFeatures other = (SubFeatures) obj;
+		if (id != other.id)
+			return false;
+		if (subFeatureName == null) {
+			if (other.subFeatureName != null)
+				return false;
+		} else if (!subFeatureName.equals(other.subFeatureName))
+			return false;
+		return true;
+	}*/
+
+	@Override
+	public String toString() {
+		return "SubFeatures [id=" + id + ", subFeatureName=" + subFeatureName + "]";
+	}
+	
+	
 }

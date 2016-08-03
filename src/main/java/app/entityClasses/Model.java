@@ -32,9 +32,9 @@ public class Model {
 		super();
 	}
 
-	@ManyToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(nullable = false, name = "MANUF_ID")
-	@Fetch(FetchMode.JOIN)
+	//@Fetch(FetchMode.JOIN)
 	public Manufacturer getManufacturer() {
 		return manufacturer;
 	}
@@ -66,7 +66,7 @@ public class Model {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "modelMapper")
-	@Fetch(FetchMode.JOIN)
+	//@Fetch(FetchMode.JOIN)
 	public Set<ModelManufacturerMapper> getModelManufMapper() {
 		return modelManufMapper;
 	}

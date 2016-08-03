@@ -20,7 +20,6 @@ public class ManageEmployee {
 	         System.err.println("Failed to create sessionFactory object." + ex);
 	         throw new ExceptionInInitializerError(ex); 
 	      }
-	      ManageEmployee ME = new ManageEmployee();
 
 	      /*Session session = factory.openSession();
 	      Transaction tx = session.beginTransaction();
@@ -38,13 +37,13 @@ public class ManageEmployee {
 			ME.listEmployees();*/
 	      
 	      Session session = factory.openSession();
-	      Transaction tx = session.beginTransaction();
 	      String hql = "select * from EMPLOYEE e join STD_FACT s on e.ID = s.ID";
 	      //select * from EMPLOYEE e join STD_FACT s on e.ID = s.ID
 	      SQLQuery  query = session.createSQLQuery(hql);
 	      
 	      query.addEntity(Employee.class).addJoin("e", "e.id");
-	      List results = query.list();
+	      @SuppressWarnings("rawtypes")
+		List results = query.list();
 	      System.out.println(results);
 	   }
 	 
@@ -69,7 +68,8 @@ public class ManageEmployee {
 	      return employeeID;
 	   }
 	
-	   public void listEmployees( ){
+	   @SuppressWarnings("rawtypes")
+	public void listEmployees( ){
 	      Session session = factory.openSession();
 	      Transaction tx = null;
 	      try{

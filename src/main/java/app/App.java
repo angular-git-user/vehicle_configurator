@@ -1,12 +1,9 @@
 package app;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import app.connection.HibernateConnectionUtil;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -20,20 +17,6 @@ public class App
 	public static void main( String[] args )
 	{
 		SpringApplication.run(App.class, args);
-		SessionFactory sf = HibernateConnectionUtil.getConnectionFactory();
-
-		Session session = sf.openSession();
-		session.beginTransaction();
-
-		/*String sql = "select * from feature_types f where feature_name = :feature_name";
-    	SQLQuery query = session.createSQLQuery(sql);
-    	query.setString("feature_name", EFeatures.STANDARD_FEATURE.toString());
-    	query.addEntity(FeatureTypes.class);
-		features = (List<FeatureTypes>) query.list();*/
-		
-		//Model m = (Model)session.get(Model.class, 1);
-		session.getTransaction().commit();
-		sf.close();
 	}
 
 	@Bean

@@ -44,8 +44,8 @@ public class ModelManufacturerMapper {
 		this.id = id;
 	}
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@Fetch(FetchMode.JOIN)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	//@Fetch(FetchMode.JOIN)
 	@JoinColumn(name = "MODEL_ID")
 	public Model getModelMapper() {
 		return modelMapper;
@@ -54,8 +54,8 @@ public class ModelManufacturerMapper {
 		this.modelMapper = modelMapper;
 	}
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@Fetch(FetchMode.JOIN)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	//@Fetch(FetchMode.JOIN)
 	@JoinColumn(name = "Manufacturer_id")
 	public FeatureManufacturers getManufacturerMapper() {
 		return manufacturerMapper;

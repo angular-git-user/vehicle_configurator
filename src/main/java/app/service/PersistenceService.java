@@ -5,6 +5,7 @@ import java.util.List;
 import app.entityClasses.EFeatures;
 import app.entityClasses.Manufacturer;
 import app.entityClasses.Model;
+import app.entityClasses.ModelManufacturerMapper;
 import app.entityClasses.Segment;
 import app.entityClasses.User;
 
@@ -19,6 +20,6 @@ public interface PersistenceService {
 	public List<Manufacturer> getAllManufacturers(int segmentId);
 	
 	public List<Model> getAllModels(int manufacturerId);
-	
-	public List<String> getAllAvailableFeatureNames(int modelId, EFeatures title);
+
+	public List<ModelManufacturerMapper> getAllFeatures(int modelId);
 }

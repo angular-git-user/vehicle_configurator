@@ -45,7 +45,7 @@ public class FeatureManufacturers {
 		this.manufacturerName = manufacturerName;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@Fetch(FetchMode.JOIN)
 	@JoinColumn(name = "Sub_feature_ID", nullable = false)
 	public SubFeatures getSubfeature() {
@@ -71,6 +71,8 @@ public class FeatureManufacturers {
 	public void setModelManufMapper(Set<ModelManufacturerMapper> modelManufMapper) {
 		this.modelManufMapper = modelManufMapper;
 	}
-	
-	
+	@Override
+	public String toString() {
+		return "FeatureManufacturers [id=" + id + ", manufacturerName=" + manufacturerName + ", cost=" + cost + "]";
+	}
 }
