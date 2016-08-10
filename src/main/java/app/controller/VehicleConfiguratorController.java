@@ -1,6 +1,7 @@
 package app.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,7 +77,7 @@ public class VehicleConfiguratorController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value="/features/{modelId}")
-	public void getFeatures(@RequestParam int modelId){
-		List<FeatureTypesDto> mappedFeatures = service.getFeatures(modelId);
+	public Map<String, FeatureTypesDto> getFeatures(@RequestParam int modelId){
+		return service.getFeatures(modelId);
 	}
 }

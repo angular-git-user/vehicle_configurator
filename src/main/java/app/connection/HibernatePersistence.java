@@ -1,8 +1,9 @@
 package app.connection;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -15,13 +16,11 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 
-import app.entityClasses.FeatureManufacturers;
 import app.entityClasses.FeatureTypes;
 import app.entityClasses.Manufacturer;
 import app.entityClasses.Model;
 import app.entityClasses.ModelManufacturerMapper;
 import app.entityClasses.Segment;
-import app.entityClasses.SubFeatures;
 import app.entityClasses.User;
 import app.service.PersistenceService;
 
@@ -142,24 +141,26 @@ public class HibernatePersistence implements PersistenceService {
 		return list;
 	}
 
-	
+
 	//TODO
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes"})
 	@Override
 	public List<ModelManufacturerMapper> getAllFeatures(int modelId) {
 		Session session = factory.openSession();
-		List<ModelManufacturerMapper> list = null;
-		Set<FeatureTypes> set = new HashSet<FeatureTypes>();
-		List<FeatureTypes> types = null;
+		List<ModelManufacturerMapper> list = new ArrayList<ModelManufacturerMapper>();
 		try {
-			list = session.createCriteria(ModelManufacturerMapper.class).
-					add(Restrictions.eq("modelMapper.id", modelId)).list();
-			/*String sql = "select types.* from MAPPER_MODEL_MANUFACTURER mapper join FEATURE_MANUFACTURERS feat on feat.MANUFACTURER_ID = mapper.MANUFACTURER_ID join SUB_FEATURES sub on feat.SUB_FEATURE_ID=sub.SUB_FEATURE_ID join FEATURE_TYPES types on types.FEATURE_ID = sub.FEATURE_ID where mapper.MODEL_ID=1 order by types.FEATURE_NAME, sub.SUB_FEATURE_NAME DESC";
-			SQLQuery query = session.createSQLQuery(sql);
-			query.addEntity(FeatureTypes.class);	
-			List<FeatureTypes> li = query.list();*/
-			for(ModelManufacturerMapper mapper : list){
-				set.add(mapper.getManufacturerMapper().getSubfeature().getFeature());
+			Criteria criteria = session.createCriteria(FeatureTypes.class)
+					.createCriteria("subFeatures", "sub")
+					.createCriteria("manufactureresOfFeature", "manu")
+					.createCriteria("modelManufMapper","modelManu")
+					.add(Restrictions.eq("modelManu.modelMapper.id", modelId))
+					.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+			List featureTypes = criteria.list();
+			Iterator iterator =featureTypes.iterator();
+			while(iterator.hasNext()){
+				Map map= (Map)iterator.next();
+				ModelManufacturerMapper mapper = (ModelManufacturerMapper) map.get("modelManu");
+				list.add(mapper);
 			}
 		} catch (HibernateException e) {
 			e.printStackTrace();

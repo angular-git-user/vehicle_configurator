@@ -1,20 +1,21 @@
 package app.dto;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FeatureTypesDto {
 	
 	private int typeId;
 	private String featureType;
-	Set<SubFeatureDto> subFeatures = new HashSet<SubFeatureDto>();
+	Map<String, SubFeatureDto> subFeatures = new HashMap<String, SubFeatureDto>();
 	
-	public Set<SubFeatureDto> getSubFeatures() {
+	public Map<String, SubFeatureDto> getSubFeatures() {
 		return subFeatures;
 	}
-	public void setSubFeatures(Set<SubFeatureDto> subFeatures) {
+	public void setSubFeatures(Map<String, SubFeatureDto> subFeatures) {
 		this.subFeatures = subFeatures;
 	}
+	
 	public int getTypeId() {
 		return typeId;
 	}
@@ -34,12 +35,6 @@ public class FeatureTypesDto {
 		this.featureType = featureType;
 	}
 	
-	public FeatureTypesDto(int typeId, String featureType, Set<SubFeatureDto> subFeatures) {
-		super();
-		this.typeId = typeId;
-		this.featureType = featureType;
-		this.subFeatures = subFeatures;
-	}
 	public FeatureTypesDto() {
 		super();
 	}
@@ -66,6 +61,10 @@ public class FeatureTypesDto {
 		} else if (!featureType.equals(other.featureType))
 			return false;
 		return true;
+	}
+	@Override
+	public String toString() {
+		return "FeatureTypesDto [typeId=" + typeId + ", featureType=" + featureType + "]";
 	}
 	
 	

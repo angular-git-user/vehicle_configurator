@@ -2,7 +2,6 @@ package app.service;
 
 import java.util.List;
 
-import app.entityClasses.EFeatures;
 import app.entityClasses.Manufacturer;
 import app.entityClasses.Model;
 import app.entityClasses.ModelManufacturerMapper;

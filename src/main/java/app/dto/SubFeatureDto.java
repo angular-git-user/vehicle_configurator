@@ -1,17 +1,25 @@
 package app.dto;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SubFeatureDto {
 	
 	private int id;	
 	private String subFeatureName;
-	private List<FeatureManufacturerDto> featureManufacturers;
+	private Set<FeatureManufacturerDto> featureManufacturers = new HashSet<FeatureManufacturerDto>();
+	private FeatureTypesDto fetureType;
 	
+	public FeatureTypesDto getFetureType() {
+		return fetureType;
+	}
+	public void setFetureType(FeatureTypesDto fetureType) {
+		this.fetureType = fetureType;
+	}
 	public int getId() {
 		return id;
-	}
-	public void setId(int id) {
+	} 
+	public void setId(int id) {   
 		this.id = id;
 	}
 	public String getSubFeatureName() {
@@ -21,27 +29,18 @@ public class SubFeatureDto {
 		this.subFeatureName = subFeatureName;
 	}
 	
-	public List<FeatureManufacturerDto> getFeatureManufacturers() {
-		return featureManufacturers;
-	}
-	public void setFeatureManufacturers(List<FeatureManufacturerDto> featureManufacturers) {
-		this.featureManufacturers = featureManufacturers;
-	}
-	
 	public SubFeatureDto(int id, String subFeatureName) {
 		super();
 		this.id = id;
 		this.subFeatureName = subFeatureName;
 	}
 	
-	public SubFeatureDto(int id, String subFeatureName,
-			List<FeatureManufacturerDto> featureManufacturers) {
-		super();
-		this.id = id;
-		this.subFeatureName = subFeatureName;
+	public Set<FeatureManufacturerDto> getFeatureManufacturers() {
+		return featureManufacturers;
+	}
+	public void setFeatureManufacturers(Set<FeatureManufacturerDto> featureManufacturers) {
 		this.featureManufacturers = featureManufacturers;
 	}
-	
 	public SubFeatureDto() {
 		super();
 	}
@@ -68,4 +67,9 @@ public class SubFeatureDto {
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "SubFeatureDto [id=" + id + ", subFeatureName=" + subFeatureName + "]";
+	}
+	
 }

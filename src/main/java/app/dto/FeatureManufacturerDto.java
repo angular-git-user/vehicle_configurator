@@ -5,7 +5,14 @@ public class FeatureManufacturerDto {
 	private int id;
 	private String manufacturerName;
 	private Long cost;
+	private SubFeatureDto subFeature;
 	
+	public SubFeatureDto getSubFeature() {
+		return subFeature;
+	}
+	public void setSubFeature(SubFeatureDto subFeature) {
+		this.subFeature = subFeature;
+	}
 	public int getId() {
 		return id;
 	}
@@ -57,6 +64,10 @@ public class FeatureManufacturerDto {
 		} else if (!manufacturerName.equals(other.manufacturerName))
 			return false;
 		return true;
+	}
+	@Override
+	public String toString() {
+		return "FeatureManufacturerDto [id=" + id + ", manufacturerName=" + manufacturerName + ", cost=" + cost + "]";
 	}
 	
 }

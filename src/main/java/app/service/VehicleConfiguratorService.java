@@ -2,6 +2,7 @@ package app.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -67,9 +68,8 @@ public class VehicleConfiguratorService {
 		return modelsDto;
 	}
 
-	public List<FeatureTypesDto> getFeatures(int modelId) {
+	public Map<String, FeatureTypesDto> getFeatures(int modelId) {
 		List<ModelManufacturerMapper> mapper = hibernatePersistence.getAllFeatures(modelId);
-		return null;
-		
+		return responseTranslator.getMappedFeatures(mapper);
 	}
 }

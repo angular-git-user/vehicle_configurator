@@ -44,7 +44,7 @@ public class ModelManufacturerMapper {
 		this.id = id;
 	}
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	//@Fetch(FetchMode.JOIN)
 	@JoinColumn(name = "MODEL_ID")
 	public Model getModelMapper() {
