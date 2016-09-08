@@ -72,4 +72,17 @@ public class VehicleConfiguratorService {
 		List<ModelManufacturerMapper> mapper = hibernatePersistence.getAllFeatures(modelId);
 		return responseTranslator.getMappedFeatures(mapper);
 	}
+	
+	public List<ModelDto> getSearchSuggestionsForModels(String searchString){
+		List<Model> models = hibernatePersistence.getSearchSuggestionsForModels(searchString);
+		List<ModelDto> modelsDto = null;
+		if(models !=null && !models.isEmpty()){
+			modelsDto = new ArrayList<ModelDto>();
+			
+			for(Model model : models){
+				modelsDto.add(responseTranslator.getModel(model));
+			}
+		}
+		return modelsDto;
+	}
 }

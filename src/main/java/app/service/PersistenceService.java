@@ -21,4 +21,6 @@ public interface PersistenceService {
 	public List<Model> getAllModels(int manufacturerId);
 
 	public List<ModelManufacturerMapper> getAllFeatures(int modelId);
+
+	List<Model> getSearchSuggestionsForModels(String searchString);
 }

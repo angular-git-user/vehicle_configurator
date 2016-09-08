@@ -12,15 +12,20 @@
 		<persistence strategy="localTempSwap" />
 	</defaultCache>
 
-	<cache name="segment" maxEntriesLocalHeap="10000" eternal="false"
-		timeToIdleSeconds="5" timeToLiveSeconds="10">
+	<cache name="segment1" maxEntriesLocalHeap="10000" eternal="false"
+		timeToIdleSeconds="500" timeToLiveSeconds="100">
 		<persistence strategy="localTempSwap" />
 	</cache>
 
+	<cache name="segmentManuf" maxEntriesLocalHeap="10000" eternal="false"
+		timeToIdleSeconds="500" timeToLiveSeconds="100">
+		<persistence strategy="localTempSwap" />
+	</cache>
+	
 	<cache name="org.hibernate.cache.internal.StandardQueryCache"
 		maxEntriesLocalHeap="5" eternal="false" timeToLiveSeconds="120">
 		<persistence strategy="localTempSwap" />
-	</cache>
+	</cache><!-- segmentManuf -->
 
 	<cache name="org.hibernate.cache.spi.UpdateTimestampsCache"
 		maxEntriesLocalHeap="5000" eternal="true">

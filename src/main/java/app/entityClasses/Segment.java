@@ -3,6 +3,7 @@ package app.entityClasses;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +19,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "Segment")
-@Cache(usage=CacheConcurrencyStrategy.READ_ONLY, region="segment")
+@Cacheable
+@Cache(usage=CacheConcurrencyStrategy.READ_ONLY, region="segment1")
 public class Segment {
 
 	private int id;	
@@ -42,7 +44,7 @@ public class Segment {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="segment")
-	//@Fetch(FetchMode.JOIN)
+	@Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
 	public Set<Manufacturer> getManufacturers() {
 		return manufacturers;
 	}

@@ -80,4 +80,14 @@ public class VehicleConfiguratorController {
 	public Map<String, FeatureTypesDto> getFeatures(@RequestParam int modelId){
 		return service.getFeatures(modelId);
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value="search_suggestions/model/{searchString}")
+	public List<ModelDto> getSearchSuggestionsForModels(@RequestParam String searchString){
+		return service.getSearchSuggestionsForModels(searchString);
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value="test")
+    public String setupForm(@RequestParam("petId") String petId, @RequestParam("petId2") String petId1) {
+        return petId + " " + petId1;
+    }
 }

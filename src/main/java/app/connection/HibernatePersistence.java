@@ -14,6 +14,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.stat.Statistics;
 import org.springframework.stereotype.Component;
 
 import app.entityClasses.FeatureTypes;
@@ -96,13 +97,15 @@ public class HibernatePersistence implements PersistenceService {
 	public List<Segment> getAllSegment() {
 		Session session = factory.openSession();
 		List<Segment> list = null;
+		Statistics stats = setStats();
 		try {
-			list = session.createCriteria(Segment.class).list();
+			list = session.createCriteria(Segment.class).setCacheable(true).list();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
+		printStats(stats);
 		return list;
 	}
 
@@ -111,15 +114,16 @@ public class HibernatePersistence implements PersistenceService {
 	public List<Manufacturer> getAllManufacturers(int segmentId) {
 		Session session = factory.openSession();
 		List<Manufacturer> list = null;
-
+		Statistics stats = setStats();
 		try {
-			list = session.createCriteria(Manufacturer.class).
+			list = session.createCriteria(Manufacturer.class).setCacheable(true).setCacheRegion("segmentManuf").
 					add(Restrictions.eq("segment.id", new Integer(segmentId))).list();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
+		printStats(stats);
 		return list;
 	}
 
@@ -141,8 +145,6 @@ public class HibernatePersistence implements PersistenceService {
 		return list;
 	}
 
-
-	//TODO
 	@SuppressWarnings({ "rawtypes"})
 	@Override
 	public List<ModelManufacturerMapper> getAllFeatures(int modelId) {
@@ -169,5 +171,39 @@ public class HibernatePersistence implements PersistenceService {
 		}
 		return list;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Model> getSearchSuggestionsForModels(String searchString) {
+		Session session = factory.openSession();
+		List<Model> list = null;
 
+		try {
+			list = session.createCriteria(Model.class).
+					add(Restrictions.eq("modelName", searchString+"%"))
+					.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return list;
+	}
+	
+	private Statistics setStats(){
+		Statistics stats = factory.getStatistics();
+		stats.setStatisticsEnabled(true);
+		return stats;
+	}
+	
+	private static void printStats(Statistics stats) {	
+		System.out.println("Fetch Count="
+				+ stats.getEntityFetchCount());
+		System.out.println("Second Level Hit Count="
+				+ stats.getSecondLevelCacheHitCount());
+		System.out.println("Second Level Miss Count="
+						+ stats.getSecondLevelCacheMissCount());
+		System.out.println("Second Level Put Count="
+				+ stats.getSecondLevelCachePutCount());
+	}
 }
