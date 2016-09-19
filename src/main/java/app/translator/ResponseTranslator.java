@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.tomcat.util.buf.UDecoder;
 import org.springframework.stereotype.Component;
 
 import app.dto.FeatureManufacturerDto;
@@ -13,6 +14,7 @@ import app.dto.ManufacturerDto;
 import app.dto.ModelDto;
 import app.dto.SegmentDto;
 import app.dto.SubFeatureDto;
+import app.dto.UserDto;
 import app.entityClasses.FeatureManufacturers;
 import app.entityClasses.FeatureTypes;
 import app.entityClasses.Manufacturer;
@@ -20,6 +22,7 @@ import app.entityClasses.Model;
 import app.entityClasses.ModelManufacturerMapper;
 import app.entityClasses.Segment;
 import app.entityClasses.SubFeatures;
+import app.entityClasses.User;
 
 @Component
 public class ResponseTranslator {
@@ -89,4 +92,17 @@ public class ResponseTranslator {
 		return new FeatureManufacturerDto(manu.getId(), manu.getManufacturerName(), manu.getCost());
 	}
 	
+	public UserDto getUser(User userDao){
+		UserDto user = new UserDto();
+		if(userDao != null){
+			user.setFirstName(userDao.getFirstName());
+			user.setUserId(userDao.getUserId());
+			user.setPassword(userDao.getPassword());
+			user.setEmailId(userDao.getEmailId());
+			user.setMobileNumber(userDao.getMobileNumber());
+			user.setVerificationCode(userDao.getVerificationCode());
+			user.setVerified(userDao.isVerified());
+		}
+		return user;
+	}
 }

@@ -18,7 +18,7 @@
 		<property name="hibernate.cache.use_query_cache">true</property>
 		<property name="net.sf.ehcache.configurationResourceName">/ehcache.xml</property>
   		
-  		<!-- <mapping class="app.entityClasses.User"></mapping>  -->
+  		<mapping class="app.entityClasses.User"></mapping> 
   		<mapping class="app.entityClasses.Segment"></mapping> 
   		<mapping class="app.entityClasses.Manufacturer"></mapping>
   		<mapping class="app.entityClasses.Model"></mapping>

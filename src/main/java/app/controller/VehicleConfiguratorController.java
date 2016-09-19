@@ -1,53 +1,29 @@
 package app.controller;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.dto.*;
-import app.entityClasses.User;
-import app.service.PersistenceService;
 import app.service.VehicleConfiguratorService;
 
 
 @RestController
 @RequestMapping("/vehicle")
 public class VehicleConfiguratorController {
-
-	@Autowired
-	PersistenceService hibernatePersistence;
 	
 	@Autowired
 	VehicleConfiguratorService service;
-	
-	//TODO
-	@RequestMapping(method = RequestMethod.POST,value = "/register")
-	public ResponseEntity<User> createNewUser(@RequestBody User user){
-		if(user != null){
-			Integer id = hibernatePersistence.createUser(user);
-			if(id != null){
-				return new ResponseEntity<User>(HttpStatus.OK);
-			}
-		}
-		return new ResponseEntity<User>(HttpStatus.CONFLICT);
-	}
-	
-	//TODO
-	@RequestMapping(method = RequestMethod.POST, value="/login")
-	public ResponseEntity<User> login(@RequestBody User user){
-		if(user != null && hibernatePersistence.login(user.getUserId(), user.getPassword())){
-			return new ResponseEntity<User>(HttpStatus.OK);
-		}
-		return new ResponseEntity<User>(HttpStatus.UNAUTHORIZED);		
-	}
 	
 	@RequestMapping(method = RequestMethod.GET, value="/segments")
 	public ResponseEntity<List<SegmentDto>> getSegments(){
@@ -86,8 +62,38 @@ public class VehicleConfiguratorController {
 		return service.getSearchSuggestionsForModels(searchString);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value="test")
-    public String setupForm(@RequestParam("petId") String petId, @RequestParam("petId2") String petId1) {
-        return petId + " " + petId1;
-    }
+	@RequestMapping(method = RequestMethod.GET, value="/sms")
+	public String sms(){
+		 try {
+             String recipient = "441234567";
+             String message = "Hello World";
+             String username = "admin";
+             String password = "password";
+             String originator = "441234567";
+
+             String requestUrl  = "http://127.0.0.1:9501/api?action=sendmessage&" +
+				 "username=" + URLEncoder.encode(username, "UTF-8") +
+				 "&password=" + URLEncoder.encode(password, "UTF-8") +
+				 "&recipient=" + URLEncoder.encode(recipient, "UTF-8") +
+				 "&messagetype=SMS:TEXT" +
+				 "&messagedata=" + URLEncoder.encode(message, "UTF-8") +
+				 "&originator=" + URLEncoder.encode(originator, "UTF-8") +
+				 "&serviceprovider=HTTPServer3" +
+				 "&responseformat=html";
+
+
+
+             URL url = new URL(requestUrl);
+             HttpURLConnection uc = (HttpURLConnection)url.openConnection();
+
+             System.out.println(uc.getResponseMessage());
+
+             uc.disconnect();
+
+     } catch(Exception ex) {
+             System.out.println(ex.getMessage());
+
+     }
+		return "OK";
+	}
 }

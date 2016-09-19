@@ -10,17 +10,19 @@ import app.entityClasses.User;
 
 public interface PersistenceService {
 
-	public Integer createUser(User user);
+	Integer createUser(User user);
 	
-	public boolean login(String loginId, String password);
+	List<Segment> getAllSegment();
 	
-	public List<Segment> getAllSegment();
+	List<Manufacturer> getAllManufacturers(int segmentId);
 	
-	public List<Manufacturer> getAllManufacturers(int segmentId);
-	
-	public List<Model> getAllModels(int manufacturerId);
+	List<Model> getAllModels(int manufacturerId);
 
-	public List<ModelManufacturerMapper> getAllFeatures(int modelId);
+	List<ModelManufacturerMapper> getAllFeatures(int modelId);
 
 	List<Model> getSearchSuggestionsForModels(String searchString);
+
+	User getUserWithLoginId(String loginId);
+
+	void updateUser(User u);
 }

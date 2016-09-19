@@ -3,6 +3,7 @@ package app.entityClasses;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,8 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.*;
 
 @Entity
+@Cacheable
+@Cache(usage=CacheConcurrencyStrategy.READ_ONLY, region="model")
 public class Model {
 	
 	private int id;

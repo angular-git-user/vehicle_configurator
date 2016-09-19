@@ -9,7 +9,6 @@ import javax.annotation.PostConstruct;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -33,6 +32,27 @@ public class HibernatePersistence implements PersistenceService {
 	@PostConstruct
 	public void init() {
 		factory = HibernateConnectionUtil.getConnectionFactory();
+	}
+	
+	/* TO check if the user already exists */
+	@SuppressWarnings("unchecked")
+	@Override
+	public User getUserWithLoginId(String loginId) {
+		Session session = factory.openSession();
+		User user = null;
+		try {
+			/*String hql = "select * from Users u where u.user_id='" + loginId + "'";
+			SQLQuery query = session.createSQLQuery(hql);
+			query.addEntity(User.class);*/
+			List<User> li = session.createCriteria(User.class).add(Restrictions.eq("userId", loginId)).list();
+			user = li.size() > 0 ? (User) li.get(0) : null;
+
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return user;
 	}
 
 	@Override
@@ -60,36 +80,22 @@ public class HibernatePersistence implements PersistenceService {
 	}
 
 	@Override
-	public boolean login(String loginId, String password) {
-		boolean success = false;
-		if (loginId != null && password != null) {
-
-			User user = getUserWithLoginId(loginId);
-			if (user != null && (user.getUserId().equals(loginId)) && (user.getPassword().equals(password))) {
-				success = true;
-			} else {
-				success = false;
-			}
-
-		}
-		return success;
-	}
-
-	public User getUserWithLoginId(String loginId) {
+	public void updateUser(User user) {
 		Session session = factory.openSession();
-		User user = null;
+		Transaction tx = null;
 		try {
-			String hql = "select * from Users u where u.user_id='" + loginId + "'";
-			SQLQuery query = session.createSQLQuery(hql);
-			query.addEntity(User.class);
-			user = query.list().size() > 0 ? (User) query.list().get(0) : null;
-
+			if (user != null) {
+					tx = session.beginTransaction();
+					session.saveOrUpdate(user);
+					tx.commit();
+				}
 		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
-		return user;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -176,17 +182,19 @@ public class HibernatePersistence implements PersistenceService {
 	@Override
 	public List<Model> getSearchSuggestionsForModels(String searchString) {
 		Session session = factory.openSession();
+		Statistics stats = setStats();
 		List<Model> list = null;
 
 		try {
 			list = session.createCriteria(Model.class).
-					add(Restrictions.eq("modelName", searchString+"%"))
-					.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+					add(Restrictions.ilike("modelName", searchString+"%"))
+					.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).setCacheable(true).list();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
+		printStats(stats);
 		return list;
 	}
 	
