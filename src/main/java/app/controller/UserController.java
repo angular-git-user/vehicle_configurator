@@ -44,7 +44,7 @@ public class UserController {
 		return new ResponseEntity<String>(response, HttpStatus.UNAUTHORIZED);		
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/users/{userId}/confirmation/{verificationCode}")
+	@RequestMapping(method=RequestMethod.GET, value="/users/{userId}/confirmation/{verificationCode}")
 	public ResponseEntity<Boolean> confirmVerificationCode(@RequestParam String userId, @RequestParam int verificationCode){
 		Boolean isVerified = service.verifyUser(userId, verificationCode);
 		if(isVerified == null)

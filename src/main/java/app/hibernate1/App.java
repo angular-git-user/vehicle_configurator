@@ -6,7 +6,7 @@ import app.connection.HibernateConnectionUtil;
 
 
 public class App {
-	public static void main(String[] args) {
+	public static void main1(String[] args) {
 		
     System.out.println("Hibernate one to many (Annotation)");
 	Session session = HibernateConnectionUtil.getConnectionFactory().openSession();

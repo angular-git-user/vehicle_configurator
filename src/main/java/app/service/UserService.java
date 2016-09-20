@@ -51,8 +51,7 @@ public class UserService {
 		if(!user.isVerified()){
 			message = "Please click on the verification email sent to you on registered email-id :" + user.getEmailId() + "or click to generate OTP/ verification link once again.";
 		}
-
-		if (user != null && (user.getUserId().equals(userId)) && (user.getPassword().equals(password))) {
+		else if (user != null && (user.getUserId().equals(userId)) && (user.getPassword().equals(password))) {
 			message = "Success";
 		} else {
 			message = "Invalid user_id - password combination. Try again!";

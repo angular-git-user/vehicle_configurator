@@ -58,7 +58,7 @@ public class EmailService {
 			// message.addRecipients(Message.RecipientType.CC, cc);
 			message.setSubject("Email Verification");
 			message.setText("Hello "+userId+"! \n Please click on the following link to verify your profile."
-					+ "\n http://localhost:9008/users/"+userId+"/confirmation/"+verificationCode);
+					+ "\n http://127.0.0.1:9008/users/%7BuserId%7D/confirmation/%7BverificationCode%7D?userId="+userId+"&verificationCode="+verificationCode);
 			Transport.send(message);
 		} catch (MessagingException mex) {
 			mex.printStackTrace();
